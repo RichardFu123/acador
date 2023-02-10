@@ -5,6 +5,7 @@
 import PySimpleGUI as sg
 from acador.utils.arxiv_json_reader import get_arxiv_db
 
+
 def test():
     # Use a breakpoint in the code line below to debug your script.
     sg.theme('DarkAmber')  # Add a touch of color
@@ -24,13 +25,19 @@ def test():
 
     window.close()
 
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     conn = get_arxiv_db()
     cur = conn.cursor()
-    res = cur.execute('SELECT * FROM Documents WHERE id IS "0704.0051"').fetchall()
-    data = dict(zip([c[0] for c in cur.description], res[0]))
-    print(data)
+    res = cur.execute('''SELECT DISTINCT categories FROM Documents WHERE categories LIKE "% cs.%"''').fetchall()
+    # data = dict(zip([c[0] for c in cur.description], res[0]))
+    cat_set = set()
+    for i in res:
+        cat_set.update(i[0].split(' '))
+    for i in cat_set:
+        if i.startswith('cs'):
+            print(i)
     # test()
 
 
