@@ -133,3 +133,7 @@ dmypy.json
 
 # Testing
 test.*
+
+# document folder
+docs/*
+!docs/dummy

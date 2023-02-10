@@ -20,7 +20,7 @@ class AcademicDocument:
         self.title = title
         self.type = ''
         self.keywords = []
-        self.booktitle = ''
+        self.book_title = ''
         self.hash = self.hash_doc()
         self.abstract = ''
 
@@ -28,11 +28,17 @@ class AcademicDocument:
         self.hash = hash_string(str(self.year)+' '.join(self.authors)+self.title)
         return self.hash
 
+    def __hash__(self):
+        return hash(self.hash_doc())
+
+    def __eq__(self, other):
+        return isinstance(other, AcademicDocument) and self.hash_doc() == other.hash_doc()
+
 
 if __name__ == '__main__':
-    ads = []
+    ads = set()
     for i in range(5):
-        ads.append(AcademicDocument(year=i))
-        ads.append(AcademicDocument())
+        ads.add(AcademicDocument(year=i))
+        ads.add(AcademicDocument())
     for ad in ads:
         print(ad.hash)
