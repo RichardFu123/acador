@@ -3,6 +3,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import PySimpleGUI as sg
+from acador.utils.arxiv_json_reader import get_arxiv_db
 
 def test():
     # Use a breakpoint in the code line below to debug your script.
@@ -25,8 +26,12 @@ def test():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
-    test()
+    conn = get_arxiv_db()
+    cur = conn.cursor()
+    res = cur.execute('SELECT * FROM Documents WHERE id IS "0704.0051"').fetchall()
+    data = dict(zip([c[0] for c in cur.description], res[0]))
+    print(data)
+    # test()
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

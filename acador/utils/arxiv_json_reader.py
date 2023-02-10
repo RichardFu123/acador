@@ -47,5 +47,10 @@ def load_arxiv_to_db(path):
     conn.commit()
 
 
+def get_arxiv_db():
+    db_path = os.path.join(sys.path[1], 'db', 'arxiv.db')
+    conn = sqlite3.connect(db_path)
+    return conn
+
 if __name__ == '__main__':
     load_arxiv_to_db('../../docs/arxiv-metadata-oai-snapshot.json')
