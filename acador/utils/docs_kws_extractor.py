@@ -29,9 +29,12 @@ def kws_extractor():
         if pdf in pdf_to_kws:
             continue
         else:
-            kws = pdf_to_keywords(os.path.join(path_to_docs, pdf))
-            if kws:
-                pdf_to_kws[pdf] = kws
+            try:
+                kws = pdf_to_keywords(os.path.join(path_to_docs, pdf))
+                if kws:
+                    pdf_to_kws[pdf] = kws
+            except:
+                continue
 
     with open(os.path.join(path_to_temp, 'pdf_to_kws.pkl'), 'wb') as pkw:
         pickle.dump(pdf_to_kws, pkw)

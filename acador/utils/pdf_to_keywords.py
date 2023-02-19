@@ -67,6 +67,11 @@ def keywords_string_to_list(kw_string):
     for j in range(len(kws)):
         if kws[j].strip().startswith('—') or kws[j].strip().startswith('-'):
             kws[j] = kws[j].strip()[1:].strip()
+        elif kws[j].strip().startswith('and Phrases') or kws[j].strip().startswith('and phrases'):
+            kws[j] = kws[j].strip()[11:].strip()
+        elif kws[j].strip().startswith('& Phrases') or kws[j].strip().startswith('& phrases'):
+            kws[j] = kws[j].strip()[9:].strip()
+
         else:
             kws[j] = kws[j].strip()
         kws[j] = kws[j].replace("\r", ' c')
@@ -89,7 +94,7 @@ def is_keywords_list(kws):
     if not isinstance(kws, type([])):
         return False
     for i in kws:
-        if len(i) > 100 or len(i) < 2:
+        if len(i) > 65 or len(i) < 2:
             return False
     return True
 
@@ -106,7 +111,7 @@ if __name__ == '__main__':
         '0708.3879',
         '0709.0428',
         '0803.2174',
-        '0804.0556'
+        '0804.0556',
     ]
 
     for _t in _test:
