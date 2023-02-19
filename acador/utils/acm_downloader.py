@@ -21,7 +21,7 @@ def download_acm_paper():
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    acms = cur.execute('''SELECT * FROM cs WHERE journal_ref LIKE "%ACM%"''').fetchall()
+    acms = cur.execute('''SELECT * FROM cs WHERE doi IS NOT "None"''').fetchall()
     list_accumulator = []
     for item in acms:
         list_accumulator.append({k: item[k] for k in item.keys()})

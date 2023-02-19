@@ -13,19 +13,26 @@ def pdf_to_keywords(path_to_pdf):
     doc = fitz.open(path_to_pdf)
 
     blocks = doc.load_page(0).get_text('blocks')
-    kws = []
+    try:
+        blocks += doc.load_page(1).get_text('blocks')
+    except:
+        pass
     texts = [b[-3] for b in blocks]
+    res = []
     for i in range(len(texts)-1):
         if ('keyword' in texts[i].lower() or 'key word' in texts[i].lower()) and len(texts[i]) < 15:
             texts[i] = ''
             texts[i+1] = 'kws: ' + texts[i+1]
     for t in texts:
-        res = keywords_string_to_list(cut_by_kws(t))
+        if res:
+            res = keywords_string_to_list(cut_by_kws(t))
+        else:
+            res += keywords_string_to_list(cut_by_kws(t))
         if res:
             return res
 
-    for b in blocks:
-        print(b)
+    # for b in blocks:
+    #     print(b)
     return []
 
 
@@ -56,6 +63,14 @@ def keywords_string_to_list(kw_string):
     if not is_keywords_list(kws):
         kws = kw_string.split('.')
     kws = [i for i in kws if i]
+
+    for j in range(len(kws)):
+        if kws[j].strip().startswith('—') or kws[j].strip().startswith('-'):
+            kws[j] = kws[j].strip()[1:].strip()
+        else:
+            kws[j] = kws[j].strip()
+        kws[j] = kws[j].replace("\r", ' c')
+
     if is_keywords_list(kws):
         for i in range(len(kws)):
             kws[i] = kws[i].strip()

@@ -141,3 +141,7 @@ docs/*
 # db folder
 db/*
 !db/dummy
+
+# temp folder
+temp/*
+!temp/dummy
