@@ -36,8 +36,9 @@ def download_acm_paper():
             r = requests.get(url, allow_redirects=True)
             file_path = os.path.join(docs_path, i['id'].split('/')[-1])
             open(f'{file_path}.pdf', 'wb').write(r.content)
+            r.close()
         except:
-            pass
+            continue
 
 
 
