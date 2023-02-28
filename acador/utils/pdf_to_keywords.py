@@ -6,6 +6,7 @@
 # @Software: PyCharm
 
 import fitz
+import re
 
 
 def pdf_to_keywords(path_to_pdf):
@@ -60,8 +61,8 @@ def cut_with_word(string: str, word: str):
     else:
         cut = string[string.lower().find(word.lower())+len(word):].strip()
     cut = cut.replace('- \n', '-\n')
-    if cut.find('\n') and cut[cut.find('\n')-1] != '-':
-        return cut[:cut.find('\n')]
+    if cut.find('\n') and cut[cut.find('\n')] != '-':
+        return cut.strip('\n')
     else:
         return cut
 
@@ -76,6 +77,7 @@ def keywords_string_to_list(kw_string):
     kws = [i for i in kws if i]
 
     for j in range(len(kws)):
+
         if kws[j].strip().startswith('——') or kws[j].strip().startswith('--'):
             kws[j] = kws[j].strip()[2:].strip()
         elif kws[j].strip().startswith('—') or kws[j].strip().startswith('-'):
@@ -93,6 +95,12 @@ def keywords_string_to_list(kw_string):
             kws[j] = kws[j].replace('- ', '').strip()
         else:
             kws[j] = kws[j].replace('- ', '-')
+        kws[j] = kws[j].strip('-')
+        kws[j] = kws[j].strip('–')
+        kws[j] = kws[j].strip('.')
+        kws[j] = kws[j].strip()
+
+
 
 
     if kws and len(kws[-1]) > 30 and kws[-1].find(' and '):
@@ -119,7 +127,9 @@ def is_keywords_list(kws):
     if not isinstance(kws, type([])):
         return False
     for i in kws:
-        if len(i) > 60 or len(i) < 2 or i.lower() in bad_words:
+        if len(i) > 60 or len(i) < 2 or i.lower() in bad_words or re.findall(r'\d{2,}', i):
+            return False
+        if '∈' in i or '�' in i:
             return False
     return True
 
@@ -141,7 +151,10 @@ if __name__ == '__main__':
         '0707.2630',
         '2010.14228',
         '1003.6030',
-        '1901.09161'
+        '1901.09161',
+        '1806.09447',
+        '2105.00560',
+        '2209.01339'
     ]
 
     for _t in _test:

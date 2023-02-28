@@ -12,10 +12,10 @@ import requests
 from tqdm import tqdm
 from arxiv_json_reader import get_arxiv_db
 
-def download_acm_paper():
-    docs_path = os.path.join(sys.path[1], 'docs/')
-    only_files = ['.'.join(f.split('.')[:-1]) for f in os.listdir(docs_path) if os.path.isfile(os.path.join(docs_path, f))]
 
+def download_acm_paper(target='pdf', folder='docs/'):
+    docs_path = os.path.join(sys.path[1], folder)
+    only_files = ['.'.join(f.split('.')[:-2]) for f in os.listdir(docs_path) if os.path.isfile(os.path.join(docs_path, f))]
 
     conn = get_arxiv_db()
     conn.row_factory = sqlite3.Row
@@ -32,10 +32,16 @@ def download_acm_paper():
                 _id = i['id']
             else:
                 continue
-            url = f'https://arxiv.org/pdf/{_id}'
+            if target == 'pdf':
+                url = f'https://arxiv.org/pdf/{_id}'
+            else:
+                url = f'https://arxiv.org/e-print/{_id}'
             r = requests.get(url, allow_redirects=True)
             file_path = os.path.join(docs_path, i['id'].split('/')[-1])
-            open(f'{file_path}.pdf', 'wb').write(r.content)
+            if target == 'pdf':
+                open(f'{file_path}.pdf', 'wb').write(r.content)
+            else:
+                open(f'{file_path}.tar.gz', 'wb').write(r.content)
             r.close()
         except:
             continue
@@ -43,4 +49,4 @@ def download_acm_paper():
 
 
 if __name__ == '__main__':
-    download_acm_paper()
+    download_acm_paper(target='tar', folder='source/')

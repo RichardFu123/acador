@@ -145,3 +145,10 @@ db/*
 # temp folder
 temp/*
 !temp/dummy
+
+# source folder
+source/*
+!source/dummy
+
+# figure
+*.png

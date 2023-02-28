@@ -10,10 +10,12 @@ import sys
 import pickle
 from tqdm import tqdm
 from pdf_to_keywords import pdf_to_keywords
+from source_to_keywords import source_to_kws
 
 
 def kws_extractor():
     path_to_docs = os.path.join(sys.path[1], 'docs/')
+    path_to_source = os.path.join(sys.path[1], 'source/')
     path_to_temp = os.path.join(sys.path[1], 'temp/')
 
     pdf_to_kws = {}
@@ -39,6 +41,12 @@ def kws_extractor():
     with open(os.path.join(path_to_temp, 'pdf_to_kws.pkl'), 'wb') as pkw:
         pickle.dump(pdf_to_kws, pkw)
     pkw.close()
+
+    kws_from_source = source_to_kws()
+
+    with open(os.path.join(path_to_temp, 'pdf_to_kws_source.pkl'), 'wb') as pks:
+        pickle.dump(kws_from_source, pks)
+    pks.close()
 
     return only_files
 
