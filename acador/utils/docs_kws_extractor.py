@@ -34,7 +34,7 @@ def kws_extractor():
             try:
                 kws = pdf_to_keywords(os.path.join(path_to_docs, pdf))
                 if kws:
-                    pdf_to_kws[pdf] = kws
+                    pdf_to_kws['.'.join(pdf.split('.')[:-1])] = kws
             except:
                 continue
 

@@ -36,13 +36,16 @@ def uncompress_tar_gzs(folder='source/'):
     docs_path = os.path.join(sys.path[1], folder)
     only_files = [f for f in os.listdir(docs_path) if
                   (os.path.isfile(os.path.join(docs_path, f)) and f.endswith('.tar.gz'))]
+    count = 0
     for tar in only_files:
         try:
             file = tarfile.open(os.path.join(docs_path, tar))
             file.extractall(f'{docs_path}{tar[:-7]}')
             file.close()
         except:
+            count += 1
             continue
+    print(count)
 
 def source_to_kws(folder='source/'):
     uncompress_tar_gzs(folder)
