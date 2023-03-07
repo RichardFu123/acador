@@ -59,9 +59,9 @@ def download_acm_paper(target='pdf', folder='docs/'):
             else:
                 continue
             if target == 'pdf':
-                url = f'https://arxiv.org/pdf/{_id}'
+                url = f'https://export.arxiv.org/pdf/{_id}'
             else:
-                url = f'https://arxiv.org/e-print/{_id}'
+                url = f'https://export.arxiv.org/e-print/{_id}'
             download_urls.append(url)
             download_target.append(target)
             download_id.append(_id)
