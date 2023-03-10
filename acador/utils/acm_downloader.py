@@ -41,7 +41,7 @@ def download_acm_paper(target='pdf', folder='docs/'):
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    num_cpu = mp.cpu_count() - 15
+    num_cpu = mp.cpu_count() - 3
 
     acms = cur.execute('''SELECT * FROM cs WHERE doi IS NOT "None"''').fetchall()
     # acms = cur.execute('''SELECT * FROM cs WHERE journal_ref LIKE "%ACM%"''').fetchall()

@@ -118,7 +118,8 @@ def keywords_string_to_list(kw_string):
 
 def is_keywords_list(kws):
     bad_words = [
-        'e.g.'
+        'e.g.',
+        'text tagging'
     ]
     if len(''.join(kws)) > 150:
         return False
@@ -154,7 +155,8 @@ if __name__ == '__main__':
         '1901.09161',
         '1806.09447',
         '2105.00560',
-        '2209.01339'
+        '2209.01339',
+        '2201.03158'
     ]
 
     for _t in _test:
